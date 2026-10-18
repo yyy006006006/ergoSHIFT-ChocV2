@@ -1,3 +1,30 @@
+# nekoko Choc V2版（ergoSHIFT Rev1ベース）
+
+ergoSHIFT Rev1をベースに、Kailh Choc V1 / V2対応基板とChoc V2用ボタンキャップを追加した派生版です。
+改変・頒布担当は **nekoko / [yyy006006006](https://github.com/yyy006006006)** です。
+元作者による公式販売品や公認品を示すものではありません。
+
+| 公開データ | 内容 |
+| --- | --- |
+| [基板のKiCadソース](./hardware-rev1/design_data/ergoSHIFT-rev1-ChocV1-V2-Standard-BSocket-kicad/) | Rev1ベースのChoc V1 / V2対応基板（標準右手レイアウト）。スイッチは表面、ホットスワップソケットは裏面に実装します。 |
+| [基板製造用Gerber ZIP](./hardware-rev1/ergoSHIFT-rev1-ChocV1-V2-Standard-BSocket-gerber.zip) | 上記基板の製造用データです。元のRev1用Gerberとは別ファイルです。 |
+| [Choc V2用ボタンキャップ](./3d-printed-buttoncaps/#choc-v2用ボタンキャップnekokoによる追加) | 小14個、大1個用。STL、編集用STEP、生成スクリプトを公開しています。 |
+
+基板外形、キー中心位置、取付穴、MCU配線は元のRev1から維持しています。
+本基板は裏面ソケット専用のため、スイッチの直付けや左右反転組み立てには対応していません。
+Choc V1とV2ではキャップの取付部が異なるため、使用するスイッチに合わせてデータを選択してください。
+Choc V2用キャップはCAD上で形状確認済みですが、実際の造形品における嵌合やケースとの干渉は未確認です。
+基板の検査警告などの詳細は、[Rev1の注意事項](./hardware-rev1/#nekoko版choc-v1--v2対応基板)を参照してください。
+
+**原設計とライセンス：** ergoSHIFT (c) by [mizma](https://github.com/mizma/ergoSHIFT)。
+本リポジトリは[Darudado/ergoSHIFT_RGB](https://github.com/Darudado/ergoSHIFT_RGB)のコミット `8f152af28f62ab4e4357ed43b05d77b5a4bff9c2` を複製し、2026-10-18に上記データと説明を追加したものです。
+元の設計、作者表示、ライセンス表示を保持した上で、本版の基板およびキャップの改変部分も[CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.ja)で公開します。
+ライセンス全文は[LICENSE](./LICENSE)を参照してください。ファームウェアや部品ライブラリは、それぞれの既存LICENSEと作者表示に従います。
+
+以下は元リポジトリの説明です。Rev2、RGB版、左右反転組み立てなどの記述は元版の仕様であり、本改変基板には適用されません。
+
+---
+
 ergoSHIFT arcade controller
 ========================================================================
 

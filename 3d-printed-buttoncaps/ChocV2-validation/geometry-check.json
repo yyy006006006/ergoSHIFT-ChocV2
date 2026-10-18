@@ -1,0 +1,98 @@
+{
+  "dimensions_mm": {
+    "cross_length": 4.1,
+    "cross_width": 1.4,
+    "sleeve_diameter": 5.3,
+    "cavity_depth": 3.3,
+    "lead_in": 0.15
+  },
+  "source": "https://www.kailhswitch.com/Content/upload/pdf/202015927/PG135301D03.pdf",
+  "source_drawing": "CPG135301D03, 2019-10-25, A0 (temporary drawing), page 1",
+  "physical_print_fit_tested": false,
+  "caps": [
+    {
+      "name": "ergoSHIFT-ButtonCap",
+      "source_fcstd_sha256": "32fc43ee688e29f474692ec6b7a4ecb924e77176ec32ef934f36d0bd8707e37b",
+      "original_bounds_mm": [
+        -10.7500001,
+        -10.75,
+        0.0,
+        10.75,
+        10.75,
+        5.0
+      ],
+      "new_bounds_mm": [
+        -10.7500001,
+        -10.75,
+        0.0,
+        10.75,
+        10.75,
+        5.0000001
+      ],
+      "original_volume_mm3": 484.0914937532484,
+      "new_volume_mm3": 505.7724980594342,
+      "outside_stem_region_change_mm3": 0.0,
+      "maximum_official_cross_gauge_interference_mm3": 0.0,
+      "step_valid": true,
+      "stl_watertight": true,
+      "stl_components": 1,
+      "stl_faces": 66612,
+      "stl_bounds_mm": [
+        [
+          -10.75,
+          -10.75,
+          0.0
+        ],
+        [
+          10.75,
+          10.75,
+          5.0
+        ]
+      ],
+      "stl_sha256": "f77febe5a20ae910ac9bd02f216f5eff93003c780b1442d5b21389a5aa0c1a89",
+      "step_sha256": "0393e8563606acccf81e338be4d1e6dbb42e3882130891098e4be497e0a00219"
+    },
+    {
+      "name": "ergoSHIFT-ButtonCapBig",
+      "source_fcstd_sha256": "4195768e1402077909e1db079fc9fd49f8b1068de77e6ca42a2ed73d8fa81ce6",
+      "original_bounds_mm": [
+        -13.0,
+        -13.0000001,
+        0.0,
+        13.0,
+        13.0,
+        5.000000000000001
+      ],
+      "new_bounds_mm": [
+        -13.0,
+        -13.0000001,
+        0.0,
+        13.0,
+        13.0,
+        5.0000001
+      ],
+      "original_volume_mm3": 741.8289337977188,
+      "new_volume_mm3": 763.509938103933,
+      "outside_stem_region_change_mm3": 0.0,
+      "maximum_official_cross_gauge_interference_mm3": 0.0,
+      "step_valid": true,
+      "stl_watertight": true,
+      "stl_components": 1,
+      "stl_faces": 66612,
+      "stl_bounds_mm": [
+        [
+          -13.0,
+          -13.0,
+          0.0
+        ],
+        [
+          13.0,
+          13.0,
+          5.0
+        ]
+      ],
+      "stl_sha256": "47c6e62959523f45c5fee0cf4b3339c2c3cabc499cf9f227951b90be71ec1f63",
+      "step_sha256": "b06ac08c7ea39a3209d7cf62cbd535d4907eb5ad0b6213647933a4baa114345d"
+    }
+  ]
+}

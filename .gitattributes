@@ -1,0 +1,6 @@
+# 検査済みの追加データは改行変換せず、生成時のバイト列を保持する。
+/hardware-rev1/design_data/ergoSHIFT-rev1-ChocV1-V2-Standard-BSocket-kicad/** -text
+/3d-printed-buttoncaps/*-ChocV2-MX.stl -text
+/3d-printed-buttoncaps/design_data/*-ChocV2-MX.step binary
+/3d-printed-buttoncaps/design_data/make_choc_v2_caps.py -text
+/3d-printed-buttoncaps/ChocV2-validation/geometry-check.json -text

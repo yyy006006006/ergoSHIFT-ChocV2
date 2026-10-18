@@ -1,3 +1,21 @@
+## nekoko版：Choc V1 / V2対応基板
+
+本改変版の基板データには、[KiCadソース](./design_data/ergoSHIFT-rev1-ChocV1-V2-Standard-BSocket-kicad/)および[Gerber ZIP](./ergoSHIFT-rev1-ChocV1-V2-Standard-BSocket-gerber.zip)を使用してください。
+Kailh Choc V1 / V2対応の機械穴と裏面専用ソケットのフットプリントを採用し、元の外形、キー配置、取付穴、MCU配線を維持しています。
+標準の右手操作レイアウト専用で、スイッチは表面に、Kailh CPG135001S30ソケット15個は裏面に実装します。
+スイッチの直付けには非対応で、元版の左右反転組み立て手順も本版には適用できません。
+MCUはATmega32U4版Pro Micro用です。既存の[Rev1用ファームウェア](../firmwares_atmega32u4/)を使用し、RP2040向けのRev2用ファームウェアと混同しないよう注意してください。
+
+2026-10-02時点の保存済み検査結果では、DRCエラー0件、未接続0件、回路図との不一致0件でした。
+DRC警告34件（シルクと基板端6件、ライブラリとのフットプリント差分4件、シルクと銅箔の重なり24件）、ERCエラー1件（電源ピン未駆動）、ERC警告21件が残っています。
+検査除外の追加やルールの緩和は行っていません。なお、これらの結果は実機での全ボタン動作や、あらゆるスイッチ・ケースとの適合を保証するものではありません。
+
+改変：nekoko / [yyy006006006](https://github.com/yyy006006006)、2026-10-18公開用整理。
+原設計：ergoSHIFT (c) by [mizma](https://github.com/mizma/ergoSHIFT)。改変設計も[CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)です。
+以下は元のRev1の説明です。
+
+---
+
 ergoSHIFT rev1
 ========================================================================
 
