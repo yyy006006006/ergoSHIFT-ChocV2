@@ -10,9 +10,11 @@ let busyAction = "";
 const groups = new Map();
 
 function message(text, error = false) {
-  $("message").textContent = text;
-  $("message").className = `message${error ? " error" : ""}`;
-  $("message").hidden = !text;
+  const target = device?.opened ? $("message") : $("connection-message");
+  for (const node of [$("message"), $("connection-message")]) { node.hidden = true; node.textContent = ""; }
+  target.textContent = text;
+  target.className = `message${error ? " error" : ""}`;
+  target.hidden = !text;
 }
 
 // 下書きはこのブラウザー内だけに保存する。本体への保存とは区別して表示する。
@@ -21,7 +23,7 @@ try {
   if (draft) { mapping = decodeLayout(JSON.parse(draft)); hasDraft = true; }
 } catch (error) {
   storageAvailable = false;
-  message("下書きを復元できませんでした。標準配置を表示しています。必要ならJSONから読み込んでください。", true);
+  message("下書きを読み込めませんでした。", true);
 }
 
 function rememberDraft() {
@@ -29,7 +31,7 @@ function rememberDraft() {
   try { localStorage.setItem(DRAFT_KEY, JSON.stringify(encodeLayout(mapping))); }
   catch (error) {
     storageAvailable = false;
-    message("ブラウザー内に下書きを保持できません。設定はJSONでバックアップできます。", true);
+    message("下書きを保持できません。必要ならファイルに保存してください。", true);
   }
 }
 
@@ -69,7 +71,7 @@ function chooseAction(action) {
   if (busy) return;
   mapping = assign(mapping, selected, action, $("swap").checked);
   hasDraft = true; $("preset").value = ""; rememberDraft(); render();
-  message(`${BUTTONS[selected].name}に「${LABELS[action]}」を割り当てました。本体への反映は保存後です。`);
+  message("");
 }
 
 function buildController() {
@@ -113,9 +115,6 @@ function render() {
     group.querySelector(".key-name").textContent = LABELS[mapping[index]];
     group.querySelector(".selection-ring").style.display = active ? "" : "none";
   }
-  $("selected-name").textContent = BUTTONS[selected].name;
-  $("selected-ref").textContent = BUTTONS[selected].id;
-  $("selected-action").textContent = LABELS[mapping[selected]];
   for (const button of document.querySelectorAll("[data-action]")) {
     const action = button.dataset.action;
     button.setAttribute("aria-pressed", String(mapping[selected] === action));
@@ -123,24 +122,19 @@ function render() {
     if (button instanceof HTMLButtonElement) button.disabled = busy;
     else button.setAttribute("tabindex", busy ? "-1" : "0");
   }
-  const duplicates = [...new Set(mapping.filter((v,i) => v !== "NONE" && mapping.indexOf(v) !== i))];
-  $("action-note").textContent = mapping[selected] === "BACK"
-    ? "BACK / SELECTはゲームによって対戦操作に割り当てられない場合があります。"
-    : duplicates.length ? `${duplicates.join("・")}を複数のボタンに配置しています。どちらを押しても同じ入力になります。`
-    : "A・B・X・YなどはPCへ送る入力名です。パンチ・キックなどの操作はゲーム側で設定します。";
+  // 読み取りまで成功した機器だけを接続済みとし、画面を切り替える。
   const connected = Boolean(device?.opened);
-  $("connection-status").classList.toggle("connected", connected);
-  $("connection-status").lastChild.textContent = connected ? " 設定モードで接続中" : " 本体未接続";
+  $("connection-screen").hidden = connected;
+  $("keymap-screen").hidden = !connected;
+  $("editor-connection").hidden = !connected;
   $("connect").disabled = busy;
-  $("connect").firstChild.textContent = busyAction === "connect" ? "接続先を選択中… " : connected ? "接続を解除 " : "USBで接続 ";
+  $("connect-start").disabled = busy;
+  $("connect-start").textContent = busyAction === "connect" ? "接続中…" : "接続";
   $("read").disabled = !connected || busy;
   $("save").disabled = !connected || busy || !isDirty();
   $("reset").disabled = busy; $("preset").disabled = busy; $("import").disabled = busy;
-  $("save").firstChild.textContent = busyAction === "save" ? "保存を確認中… " : connected && !isDirty() ? "保存済み " : "本体に保存 ";
-  $("edit-state").textContent = connected ? (isDirty() ? "編集中 · 本体には未保存" : "本体の保存内容と一致") : "配置のプレビュー · 本体には未反映";
-  $("save-help").textContent = connected
-    ? isDirty() ? "保存後は本体の内容を読み直して照合します。" : "USBを抜いて挿し直すと、この配置でゲームに戻れます。"
-    : "設定モードで接続すると、USB経由で保存できます。";
+  $("save").textContent = busyAction === "save" ? "保存中…" : connected && !isDirty() ? "保存済み" : "保存";
+  $("save-help").textContent = connected && isDirty() ? "未保存" : "";
 }
 
 function markPhysical(mask) {
@@ -160,28 +154,19 @@ async function detach() {
   markPhysical(0);
 }
 
-// 初めて接続する人にも、使う小ボタンとUSBの挿し直しを先に案内する。
-$("connect").addEventListener("click", () => {
-  if (busy) return;
-  if (device) { connectDevice(); return; }
-  $("connect-guide").showModal();
-});
-$("guide-close").addEventListener("click", () => $("connect-guide").close());
-$("guide-cancel").addEventListener("click", () => $("connect-guide").close());
-$("connect-start").addEventListener("click", () => {
-  $("connect-guide").close();
-  connectDevice();
-});
+// 接続操作はブラウザーの機器選択を開くクリックから開始する。
+$("connect").addEventListener("click", connectDevice);
+$("connect-start").addEventListener("click", connectDevice);
 
 async function connectDevice() {
   if (busy) return;
   if (device) {
-    try { await detach(); message("接続を解除しました。編集中の配置は画面に残っています。"); }
+    try { await detach(); message(""); }
     catch (error) { message(`接続解除を確認できませんでした：${error.message}`, true); }
-    render(); return;
+    render(); $("connection-title").focus(); return;
   }
   if (!window.isSecureContext || !("hid" in navigator)) {
-    message("USB設定は、PCのChrome・Edgeでこのページを開いて利用してください。HTTPS接続が必要です。", true); return;
+    message("PCのChrome / EdgeでHTTPSのページを開いてください。", true); return;
   }
   busy = true; busyAction = "connect"; render();
   message("接続一覧で「ergoSHIFT Configuration」を選び、「接続」を押してください。");
@@ -189,25 +174,27 @@ async function connectDevice() {
   try {
     // 選択はユーザーのクリックからだけ開始し、対象のベンダーHIDに限定する。
     [candidate] = await navigator.hid.requestDevice({ filters:[HID_FILTER] });
-    if (!candidate) { message("接続をキャンセルしました。配置の編集は続けられます。"); return; }
+    if (!candidate) { message(""); return; }
     if (!candidate.opened) await candidate.open();
     const actual = await readMapping(candidate);
     device = candidate; savedMap = actual;
     if (!hasDraft) mapping = [...actual];
     device.addEventListener("inputreport", inputReport);
-    message(hasDraft ? "接続しました。編集中の配置を保持しています。本体へ反映するには「本体に保存」を選んでください。" : "本体の配置を読み込みました。ボタンを押すと、図の同じ位置が光ります。");
+    render();
+    $("layout-title").focus();
+    message(hasDraft ? "未保存の編集を復元しました。" : "");
   } catch (error) {
     if (candidate?.opened && candidate !== device) {
       try { await candidate.close(); } catch (closeError) { console.warn("接続失敗後のUSBクローズ失敗", closeError); }
     }
-    message(`接続できませんでした：${error.message} 設定ボタンを押しながらUSBを挿し直して確認してください。`, true);
+    message(`接続できませんでした：${error.message} 中央の小ボタンを押しながらUSBを挿し直してください。`, true);
   } finally { busy = false; busyAction = ""; render(); }
 }
 
 $("save").addEventListener("click", async () => {
   if (!device?.opened || busy) return;
   const target = device, requested = validateMap(mapping);
-  busy = true; busyAction = "save"; render(); message("本体へ保存し、内容を照合しています…");
+  busy = true; busyAction = "save"; render(); message("");
   try {
     const actual = await saveMapping(target, requested);
     if (device !== target || !target.opened) throw new Error("保存確認中に接続が切れました。");
@@ -215,7 +202,7 @@ $("save").addEventListener("click", async () => {
     if (storageAvailable) {
       try { localStorage.removeItem(DRAFT_KEY); } catch (error) { storageAvailable = false; }
     }
-    message("保存できました。USBを抜き、何も押さずに挿し直すと、この配置で使えます。");
+    message("保存しました。USBを抜き、何も押さずに挿し直してください。");
   } catch (error) {
     // 送信後の切断では保存されている可能性もあるため、成功・未保存を断定しない。
     savedMap = null;
@@ -225,7 +212,7 @@ $("save").addEventListener("click", async () => {
 
 $("read").addEventListener("click", async () => {
   if (!device?.opened || busy) return;
-  if (isDirty() && !window.confirm("編集中の配置を置き換え、本体に保存されている配置を読み込みますか？")) return;
+  if (isDirty() && !window.confirm("未保存の編集を破棄して読み直しますか？")) return;
   const target = device;
   busy = true; render();
   try {
@@ -235,7 +222,7 @@ $("read").addEventListener("click", async () => {
     if (storageAvailable) {
       try { localStorage.removeItem(DRAFT_KEY); } catch (error) { storageAvailable = false; }
     }
-    message("本体に保存されている配置を読み込みました。");
+    message("");
   } catch (error) { message(`読み込めませんでした：${error.message}`, true); }
   finally { busy = false; render(); }
 });
@@ -244,14 +231,15 @@ if ("hid" in navigator) navigator.hid.addEventListener("disconnect", event => {
   if (event.device !== device) return;
   device.removeEventListener("inputreport", inputReport);
   device = null; savedMap = null; markPhysical(0); render();
-  message("本体が取り外されました。画面の配置は残っています。再接続時は設定モードで接続してください。");
+  $("connection-title").focus();
+  message("接続が切れました。");
 });
 
 function preset(name) {
   mapping = defaults();
   if (name === "top-r3") mapping = assign(mapping, 0, "R3", true);
   selected = 0; hasDraft = true; rememberDraft(); render();
-  message(name === "top-r3" ? "上の大ボタンをR3、元のR3をBACKに入れ替えました。本体へ反映するには保存してください。" : "画面を標準配置に戻しました。本体へ反映するには保存してください。");
+  message("");
 }
 $("preset").addEventListener("change", event => { if (event.target.value) preset(event.target.value); });
 $("reset").addEventListener("click", () => { $("preset").value = "default"; preset("default"); });
@@ -261,7 +249,7 @@ $("export").addEventListener("click", () => {
   const url = URL.createObjectURL(blob), link = document.createElement("a");
   link.href = url; link.download = "ergoSHIFT-button-layout.json";
   link.click(); setTimeout(() => URL.revokeObjectURL(url), 1000);
-  message("画面の配置をJSONとして保存しました。本体の保存内容は変更していません。");
+  message("ファイルに保存しました。");
 });
 $("import").addEventListener("click", () => $("import-file").click());
 $("import-file").addEventListener("change", async event => {
@@ -272,7 +260,7 @@ $("import-file").addEventListener("change", async event => {
     const imported = decodeLayout(JSON.parse(await file.text()));
     if (busy) throw new Error("本体との通信が終わってから読み込んでください。");
     mapping = imported; hasDraft = true; $("preset").value = ""; rememberDraft(); render();
-    message("JSONの配置を画面に読み込みました。本体へ反映するには保存してください。");
+    message("ファイルを読み込みました。本体への反映は「保存」。");
   } catch (error) { message(`読み込めませんでした：${error.message}`, true); }
   finally { event.target.value = ""; }
 });
