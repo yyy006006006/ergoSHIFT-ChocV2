@@ -1,25 +1,25 @@
-## Choc V2用ボタンキャップ（nekokoによる追加）
+## Choc V2 button caps (added by nekoko)
 
-元のキャップ外形と高さ5 mmを維持し、裏側の二本脚をChoc V2の十字ステム用取付部に変更しました。
-小14個、大1個を使用します。元のChoc V1用データは変更していません。
+The original cap outline and 5 mm height are unchanged; the two-prong underside has been replaced with a mount for Choc V2 cross stems.
+Use 14 small caps and 1 large cap. The original Choc V1 files are unchanged.
 
-| サイズ | 印刷用 | 編集用 |
+| Size | Print files | Editable files |
 | --- | --- | --- |
-| 小・外径21.5 mm | [STL](./ergoSHIFT-ButtonCap-ChocV2-MX.stl) | [STEP](./design_data/ergoSHIFT-ButtonCap-ChocV2-MX.step) |
-| 大・外径26 mm | [STL](./ergoSHIFT-ButtonCapBig-ChocV2-MX.stl) | [STEP](./design_data/ergoSHIFT-ButtonCapBig-ChocV2-MX.step) |
+| Small, 21.5 mm outer diameter | [STL](./ergoSHIFT-ButtonCap-ChocV2-MX.stl) | [STEP](./design_data/ergoSHIFT-ButtonCap-ChocV2-MX.step) |
+| Large, 26 mm outer diameter | [STL](./ergoSHIFT-ButtonCapBig-ChocV2-MX.stl) | [STEP](./design_data/ergoSHIFT-ButtonCapBig-ChocV2-MX.step) |
 
-十字穴の公称寸法は長さ4.10 mm、幅1.40 mm、深さ3.30 mmで、[Kailh CPG135301D03の図面](https://www.kailhswitch.com/Content/upload/pdf/202015927/PG135301D03.pdf)を基準にしています。
-CAD上での外形維持、STEPの再読み込み、STLの閉じた形状は確認していますが、造形品の嵌合、保持力、耐久性、ケースとの干渉は未確認です。まずは小キャップ1個で適合を確認してください。
-なお、`ChocV2-MX`は十字ステム用データの識別名であり、すべてのMX互換スイッチとの適合を示すものではありません。
+The nominal cross-shaped hole is 4.10 mm long, 1.40 mm wide, and 3.30 mm deep, based on the [Kailh CPG135301D03 drawing](https://www.kailhswitch.com/Content/upload/pdf/202015927/PG135301D03.pdf).
+The unchanged outer geometry, STEP re-import, and watertight STL meshes have been checked in CAD. Physical printed fit, retention, durability, and case clearance have not been tested. Test one small cap before printing a full set.
+`ChocV2-MX` identifies these cross-stem files; it does not imply compatibility with every MX-style switch.
 
-[生成スクリプト](./design_data/make_choc_v2_caps.py)は元のFreeCADデータを読み込み、STEPとSTLを出力します。動作にはCadQueryとtrimeshが必要です。
-[保存済み形状検査結果](./ChocV2-validation/geometry-check.json)も参照できます。
+The [generation script](./design_data/make_choc_v2_caps.py) reads the original FreeCAD files and exports STEP and STL files. It requires CadQuery and trimesh.
+[Saved geometry checks](./ChocV2-validation/geometry-check.json) are also available.
 
-原設計：ergoSHIFT (c) by [mizma](https://github.com/mizma/ergoSHIFT)。
-取付部の改変：nekoko / [yyy006006006](https://github.com/yyy006006006)、2026-10-18公開用整理。
-この改変データも[CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)で公開します。
+Original design: ergoSHIFT (c) by [mizma](https://github.com/mizma/ergoSHIFT).
+Cap mount modified by nekoko / [yyy006006006](https://github.com/yyy006006006); prepared for publication on 2026-10-18.
+These modified files are also released under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).
 
-以下は元のChoc V1用キャップの説明です。元のFull Set STLにはChoc V2用キャップは含まれません。
+The original Choc V1 cap documentation follows. The original Full Set STL does not contain Choc V2 caps.
 
 ---
 

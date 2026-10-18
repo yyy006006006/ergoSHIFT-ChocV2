@@ -1,27 +1,27 @@
-# nekoko Choc V2版（ergoSHIFT Rev1ベース）
+# nekoko Choc V2 Edition (based on ergoSHIFT Rev1)
 
-ergoSHIFT Rev1をベースに、Kailh Choc V1 / V2対応基板とChoc V2用ボタンキャップを追加した派生版です。
-改変・頒布担当は **nekoko / [yyy006006006](https://github.com/yyy006006006)** です。
-元作者による公式販売品や公認品を示すものではありません。
+This derivative of ergoSHIFT Rev1 adds a PCB designed for Kailh Choc V1 / V2 switches and Choc V2 button caps.
+Modified and distributed by **nekoko / [yyy006006006](https://github.com/yyy006006006)**.
+This does not imply an official product or endorsement by the original author.
 
-| 公開データ | 内容 |
+| Files | Description |
 | --- | --- |
-| [基板のKiCadソース](./hardware-rev1/design_data/ergoSHIFT-rev1-ChocV1-V2-Standard-BSocket-kicad/) | Rev1ベースのChoc V1 / V2対応基板（標準右手レイアウト）。スイッチは表面、ホットスワップソケットは裏面に実装します。 |
-| [基板製造用Gerber ZIP](./hardware-rev1/ergoSHIFT-rev1-ChocV1-V2-Standard-BSocket-gerber.zip) | 上記基板の製造用データです。元のRev1用Gerberとは別ファイルです。 |
-| [Choc V2用ボタンキャップ](./3d-printed-buttoncaps/#choc-v2用ボタンキャップnekokoによる追加) | 小14個、大1個用。STL、編集用STEP、生成スクリプトを公開しています。 |
+| [KiCad PCB source](./hardware-rev1/design_data/ergoSHIFT-rev1-ChocV1-V2-Standard-BSocket-kicad/) | Rev1-based Choc V1 / V2 PCB with the standard right-handed layout. Mount switches on the front and hot-swap sockets on the back. |
+| [PCB manufacturing Gerber ZIP](./hardware-rev1/ergoSHIFT-rev1-ChocV1-V2-Standard-BSocket-gerber.zip) | Manufacturing files for this modified PCB, separate from the original Rev1 Gerbers. |
+| [Choc V2 button caps](./3d-printed-buttoncaps/#choc-v2-button-caps-added-by-nekoko) | Use 14 small caps and 1 large cap. STL files, editable STEP files, and the generation script are provided. |
 
-基板外形、キー中心位置、取付穴、MCU配線は元のRev1から維持しています。
-本基板は裏面ソケット専用のため、スイッチの直付けや左右反転組み立てには対応していません。
-Choc V1とV2ではキャップの取付部が異なるため、使用するスイッチに合わせてデータを選択してください。
-Choc V2用キャップはCAD上で形状確認済みですが、実際の造形品における嵌合やケースとの干渉は未確認です。
-基板の検査警告などの詳細は、[Rev1の注意事項](./hardware-rev1/#nekoko版choc-v1--v2対応基板)を参照してください。
+The original Rev1 board outline, key centers, mounting holes, and MCU connections are unchanged.
+This PCB is for back-mounted sockets only; direct switch soldering and reversed/left-handed assembly are not supported.
+Choc V1 and V2 use different cap mounts, so choose cap files that match your switches.
+The Choc V2 caps have been checked in CAD; physical printed fit and case clearance have not been tested.
+See the [Rev1 notes](./hardware-rev1/#nekoko-edition-choc-v1--v2-pcb) for remaining PCB validation findings.
 
-**原設計とライセンス：** ergoSHIFT (c) by [mizma](https://github.com/mizma/ergoSHIFT)。
-本リポジトリは[Darudado/ergoSHIFT_RGB](https://github.com/Darudado/ergoSHIFT_RGB)のコミット `8f152af28f62ab4e4357ed43b05d77b5a4bff9c2` を複製し、2026-10-18に上記データと説明を追加したものです。
-元の設計、作者表示、ライセンス表示を保持した上で、本版の基板およびキャップの改変部分も[CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.ja)で公開します。
-ライセンス全文は[LICENSE](./LICENSE)を参照してください。ファームウェアや部品ライブラリは、それぞれの既存LICENSEと作者表示に従います。
+**Original design and license:** ergoSHIFT (c) by [mizma](https://github.com/mizma/ergoSHIFT).
+This repository copies [Darudado/ergoSHIFT_RGB](https://github.com/Darudado/ergoSHIFT_RGB) at commit `8f152af28f62ab4e4357ed43b05d77b5a4bff9c2`, with the files and documentation above added on 2026-10-18.
+The original designs, attribution, and license notices are retained. The PCB and cap modifications are also released under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).
+See [LICENSE](./LICENSE) for the full terms. Firmware and component libraries retain their respective licenses and attribution notices.
 
-以下は元リポジトリの説明です。Rev2、RGB版、左右反転組み立てなどの記述は元版の仕様であり、本改変基板には適用されません。
+The original repository documentation follows. Its Rev2, RGB, and reversed-assembly descriptions apply to the upstream versions, not this modified PCB.
 
 ---
 
