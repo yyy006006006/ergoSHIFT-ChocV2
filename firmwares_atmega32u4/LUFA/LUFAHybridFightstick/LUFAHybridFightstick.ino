@@ -5,6 +5,8 @@
 #include <Bounce2.h>
 #include <EEPROM.h>
 #include <inttypes.h>
+#include "NekokoConfig.h"
+#include "NekokoMapping.h"
 
 /* in case you want to disable one type of gamepad */
 //#define DISABLE_NSWITCH
@@ -156,6 +158,19 @@ void setupPins() {
 
 void setup() {
 
+  nekoko_mapping_load();
+  // 未使用だったOPT（SW2/GPIO0）を押して接続したときだけ設定用HIDを起動する。
+  pinMode(0, INPUT_PULLUP);
+  delay(2);
+  nekoko_config_mode = digitalRead(0) == LOW;
+  if (nekoko_config_mode) {
+    cvert = CVERT_NORMAL;
+    setupPins();
+    SetupHardware(false);
+    GlobalInterruptEnable();
+    return;
+  }
+
   bool updateCVert = false;
   modeChanged = false;
   EEPROM.get(0, state);
@@ -265,6 +280,19 @@ void setup() {
 
 
 void loop() {
+  if (nekoko_config_mode) {
+    buttonRead();
+    uint32_t physical = 0;
+    for (uint8_t i = 0; i < NEKOKO_MAP_COUNT; ++i)
+      if (buttonStatus[nekoko_source_buttons[i]]) physical |= (uint32_t)1 << i;
+    for (uint8_t i = 0; i < 4; ++i)
+      if (internalButtonStatus[i]) physical |= (uint32_t)1 << (11 + i);
+    if (buttonStatus[BUTTONSTART]) physical |= (uint32_t)1 << 15;
+    if (buttonStatus[BUTTONHOME]) physical |= (uint32_t)1 << 16;
+    nekoko_config_task(physical);
+    USB_USBTask();
+    return;
+  }
   currTime = millis();
   buttonRead();
   checkModeChange();

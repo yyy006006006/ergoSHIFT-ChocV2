@@ -1,4 +1,6 @@
 #include "XS_HID.h"
+#include "NekokoConfig.h"
+#include "NekokoMapping.h"
 static USB_JoystickReport_Input_t ReportData;
 static USB_JoystickReport_XInput_t XInput_ReportData;
 
@@ -31,6 +33,11 @@ void EVENT_USB_Device_Disconnect(void) {
 // Fired when the host set the current configuration of the USB device after enumeration.
 void EVENT_USB_Device_ConfigurationChanged(void) {
 
+  if (nekoko_config_mode) {
+    Endpoint_ConfigureEndpoint(JOYSTICK_IN_EPADDR, EP_TYPE_INTERRUPT, 8, 1);
+    return;
+  }
+
   if (!xs_xinput) Endpoint_ConfigureEndpoint(JOYSTICK_OUT_EPADDR, EP_TYPE_INTERRUPT, JOYSTICK_EPSIZE, 1);
   else Endpoint_ConfigureEndpoint((ENDPOINT_DIR_IN | 3), EP_TYPE_INTERRUPT, 32, 1);
   
@@ -40,6 +47,7 @@ void EVENT_USB_Device_ConfigurationChanged(void) {
 
 // Process control requests sent to the device from the USB host.
 void EVENT_USB_Device_ControlRequest(void) {
+  if (nekoko_config_mode) { nekoko_config_request(); return; }
   //No controlRequest received from the switch, so only handled in xinput mode 
  if (xs_xinput){
   /* Handle HID Class specific requests */
@@ -182,6 +190,11 @@ void generate_report_switch(){
 }
 
 static void generate_report(){
+  // 起動時のモード選択・SOCD判定は実ボタンのまま、ゲームへの出力だけ入れ替える。
+  uint8_t physical[22];
+  memcpy(physical, buttonStatus, sizeof(physical));
+  nekoko_mapping_apply(buttonStatus);
   if (xs_xinput) generate_report_xinput();
   else generate_report_switch();
+  memcpy(buttonStatus, physical, sizeof(physical));
 }

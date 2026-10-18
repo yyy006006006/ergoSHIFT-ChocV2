@@ -1,4 +1,5 @@
 #include "Descriptors.h"
+#include "NekokoConfig.h"
 
 bool g_xinput_mode = false;
 
@@ -326,6 +327,7 @@ uint16_t CALLBACK_USB_GetDescriptor(const uint16_t wValue,
                                     const uint16_t wIndex,
                                     const void** const DescriptorAddress)
 {
+  if (nekoko_config_mode) return nekoko_config_descriptor(wValue, wIndex, DescriptorAddress);
 const uint8_t  DescriptorType   = (wValue >> 8);
 const uint8_t  DescriptorNumber = (wValue & 0xFF);
 

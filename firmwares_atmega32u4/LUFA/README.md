@@ -4,6 +4,18 @@
 
 This firmware is a derivative of the awesome [LUFAHybridFightstick](https://github.com/CrazyRedMachine/LUFAHybridFightstick) by [CrazyRedMachine](https://github.com/CrazyRedMachine)
 
+## nekoko Web configuration firmware (experimental)
+
+The `nekoko-webconfig-v1.hex` build adds browser-based remapping for the 11 large buttons on the **Rev1 Choc V1/V2 Standard-BSocket** board. Modified by nekoko on 2026-10-18. The changes are in `NekokoMapping.*`, `NekokoConfig.*`, `LUFAHybridFightstick.ino`, `Descriptors.c`, and `XS_HID.c`. Source and firmware remain under the [GPL v3 license](LICENSE).
+
+Install this firmware before shipping an assembled controller. Buyers do not reflash the firmware to change their button assignments. They hold the middle of the three small upper buttons while connecting USB, open the web configurator in desktop Chrome or Edge, and connect to **ergoSHIFT Configuration**. They select the physical button in the upper diagram, select an Xbox-style input in the lower diagram, and choose **Save to device**. Unplug and reconnect normally to resume playing. Direction controls, HOME, START, and existing SOCD handling remain fixed. The web app reads the stored map back before reporting a successful save.
+
+The [web app source](../../web-configurator/) includes the on-screen connection guide and JSON backup/import. Configuration is stored in two alternating EEPROM records at addresses 32 and 64; legacy mode settings at addresses 0–9 are preserved. Normal XInput/Switch USB descriptors are retained; configuration mode uses a vendor-defined HID collection and the existing Switch-mode VID/PID. No new USB ID allocation is implied.
+
+Validation so far: host-side C mapping tests, invalid-data rejection, 25 interrupted-save points, browser UI tests, AVR compilation, and Flash readback verification on the assembled controller. Holding the middle small button while connecting USB successfully entered configuration mode. Chrome read the stored mapping, saved a BACK/R3 swap, and read back the matching result over WebHID. After unplugging and reconnecting normally, Windows XInput recorded all three presses of the upper large button as R3, confirming that the saved mapping survived the power cycle. Other physical buttons and individual games have not yet been retested with this firmware. A double reset exposed this unit's Caterina COM port for about 7.5 seconds; a single reset did not expose a COM port in that observation. The original `LUFAHybridFightstick.ino.hex` is retained unchanged for recovery.
+
+Build with Arduino CLI 1.5.1, the [Arduino-LUFA 0.93 board package](https://github.com/CrazyRedMachine/Arduino-Lufa/releases/tag/0.93), Bounce2 v2.71, and Arduino AVR GCC 7.3.0-atmel3.6.1-arduino7. Select `leonardo` (LUFA), ATmega32U4, 16 MHz. The current build uses 10,210 bytes of Flash and 466 bytes of static RAM. Only the application Flash is programmed; the bootloader, fuses, and EEPROM are not overwritten during installation.
+
 ## Acknowledgments
 
 This work is a fork of [LUFAHybridFightstick](https://github.com/CrazyRedMachine/LUFAHybridFightstick) by [CrazyRedMachine](https://github.com/CrazyRedMachine) and

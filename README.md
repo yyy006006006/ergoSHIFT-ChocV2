@@ -9,6 +9,7 @@ This does not imply an official product or endorsement by the original author.
 | [KiCad PCB source](./hardware-rev1/design_data/ergoSHIFT-rev1-ChocV1-V2-Standard-BSocket-kicad/) | Rev1-based Choc V1 / V2 PCB with the standard right-handed layout. Mount switches on the front and hot-swap sockets on the back. |
 | [PCB manufacturing Gerber ZIP](./hardware-rev1/ergoSHIFT-rev1-ChocV1-V2-Standard-BSocket-gerber.zip) | Manufacturing files for this modified PCB, separate from the original Rev1 Gerbers. |
 | [Choc V2 button caps](./3d-printed-buttoncaps/#choc-v2-button-caps-added-by-nekoko) | Use 14 small caps and 1 large cap. STL files, editable STEP files, and the generation script are provided. |
+| [Web button configurator](./web-configurator/) | Visual USB remapping for 11 large buttons. Requires the [nekoko configuration firmware](./firmwares_atmega32u4/LUFA/#nekoko-web-configuration-firmware-experimental) on an ATmega32U4 controller. Firmware and web app: GPL v3. |
 
 The original Rev1 board outline, key centers, mounting holes, and MCU connections are unchanged.
 This PCB is for back-mounted sockets only; direct switch soldering and reversed/left-handed assembly are not supported.
