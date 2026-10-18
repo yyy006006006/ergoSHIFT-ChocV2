@@ -3,17 +3,18 @@ export const ACTIONS = ["A", "B", "X", "Y", "LB", "RB", "LT", "RT", "L3", "R3", 
 export const LABELS = { A:"A", B:"B", X:"X", Y:"Y", LB:"LB", RB:"RB", LT:"LT", RT:"RT", L3:"L3", R3:"R3", BACK:"BACK", NONE:"無効" };
 // 下段はXbox系の配置。L3/R3はスティック押込み、LT/RTは左右のトリガー。
 export const CONTROLLER_TARGETS = [
-  { action:"LT", x:145, y:24, shape:"trigger" },
-  { action:"RT", x:475, y:24, shape:"trigger" },
-  { action:"LB", x:145, y:61, shape:"shoulder" },
-  { action:"RB", x:475, y:61, shape:"shoulder" },
-  { action:"L3", x:157, y:130, shape:"stick", caption:"左スティック押込み" },
-  { action:"R3", x:397, y:190, shape:"stick", caption:"右スティック押込み" },
-  { action:"BACK", x:279, y:114, shape:"menu" },
-  { action:"Y", x:476, y:93, shape:"face" },
-  { action:"X", x:442, y:127, shape:"face" },
-  { action:"B", x:510, y:127, shape:"face" },
-  { action:"A", x:476, y:161, shape:"face" },
+  // 縦横比を約1.6:1の外形に合わせ、クリック領域も実際の部品位置へ置く。
+  { action:"LT", x:124, y:24, shape:"trigger" },
+  { action:"RT", x:356, y:24, shape:"trigger" },
+  { action:"LB", x:124, y:61, shape:"shoulder" },
+  { action:"RB", x:356, y:61, shape:"shoulder" },
+  { action:"L3", x:125, y:153, shape:"stick", caption:"左スティック押込み" },
+  { action:"R3", x:292, y:229, shape:"stick", caption:"右スティック押込み" },
+  { action:"BACK", x:209, y:136, shape:"menu" },
+  { action:"Y", x:382, y:119, shape:"face" },
+  { action:"X", x:350, y:151, shape:"face" },
+  { action:"B", x:414, y:151, shape:"face" },
+  { action:"A", x:382, y:183, shape:"face" },
 ];
 // 実際のStandard-BSocket基板から読み取った中心座標。USB側を上に表示する。
 export const BUTTONS = [

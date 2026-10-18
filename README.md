@@ -9,7 +9,7 @@ This does not imply an official product or endorsement by the original author.
 | [KiCad PCB source](./hardware-rev1/design_data/ergoSHIFT-rev1-ChocV1-V2-Standard-BSocket-kicad/) | Rev1-based Choc V1 / V2 PCB with the standard right-handed layout. Mount switches on the front and hot-swap sockets on the back. |
 | [PCB manufacturing Gerber ZIP](./hardware-rev1/ergoSHIFT-rev1-ChocV1-V2-Standard-BSocket-gerber.zip) | Manufacturing files for this modified PCB, separate from the original Rev1 Gerbers. |
 | [Choc V2 button caps](./3d-printed-buttoncaps/#choc-v2-button-caps-added-by-nekoko) | Use 14 small caps and 1 large cap. STL files, editable STEP files, and the generation script are provided. |
-| [Web button configurator](https://yyy006006006.github.io/ergoSHIFT-ChocV2/) | Visual USB remapping for 11 large buttons. Requires the [nekoko configuration firmware](./firmwares_atmega32u4/LUFA/#nekoko-web-configuration-firmware-experimental) on an ATmega32U4 controller. [Web source](./web-configurator/); firmware and web app: GPL v3. |
+| [Web button configurator source](./web-configurator/) | Visual USB remapping for 11 large buttons. Requires the [nekoko configuration firmware](./firmwares_atmega32u4/LUFA/#nekoko-web-configuration-firmware-experimental) on an ATmega32U4 controller. Firmware and web app: GPL v3. |
 
 The original Rev1 board outline, key centers, mounting holes, and MCU connections are unchanged.
 This PCB is for back-mounted sockets only; direct switch soldering and reversed/left-handed assembly are not supported.
@@ -21,6 +21,8 @@ See the [Rev1 notes](./hardware-rev1/#nekoko-edition-choc-v1--v2-pcb) for remain
 This repository copies [Darudado/ergoSHIFT_RGB](https://github.com/Darudado/ergoSHIFT_RGB) at commit `8f152af28f62ab4e4357ed43b05d77b5a4bff9c2`, with the files and documentation above added on 2026-10-18.
 The original designs, attribution, and license notices are retained. The PCB and cap modifications are also released under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).
 See [LICENSE](./LICENSE) for the full terms. Firmware and component libraries retain their respective licenses and attribution notices.
+
+[Full license texts and notices](./LICENSES.txt) are included in source downloads. The firmware's [build instructions and bundled dependency sources](./firmwares_atmega32u4/LUFA/#source-download-and-rebuild) are provided with the modified firmware source. No personal contact information is required to download these materials.
 
 The original repository documentation follows. Its Rev2, RGB, and reversed-assembly descriptions apply to the upstream versions, not this modified PCB.
 

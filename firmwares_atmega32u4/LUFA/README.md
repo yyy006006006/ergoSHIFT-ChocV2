@@ -16,6 +16,16 @@ Validation so far: host-side C mapping tests, invalid-data rejection, 25 interru
 
 Build with Arduino CLI 1.5.1, the [Arduino-LUFA 0.93 board package](https://github.com/CrazyRedMachine/Arduino-Lufa/releases/tag/0.93), Bounce2 v2.71, and Arduino AVR GCC 7.3.0-atmel3.6.1-arduino7. Select `leonardo` (LUFA), ATmega32U4, 16 MHz. The current build uses 10,210 bytes of Flash and 466 bytes of static RAM. Only the application Flash is programmed; the bootloader, fuses, and EEPROM are not overwritten during installation.
 
+## Source download and rebuild
+
+The complete modified application source, the Arduino-LUFA platform/core, LUFA, EEPROM and Bounce2 2.71 sources used for the supplied build are included in this repository. Download the repository as a ZIP to obtain these files and [full licenses/notices](../../LICENSES.txt). The external general-purpose build tools are Arduino CLI 1.5.1 and AVR GCC 7.3.0-atmel3.6.1-arduino7 (avr-libc 2.0.0).
+
+With PowerShell 7, Arduino CLI installed, and Arduino AVR Boards 1.8.6 installed for the compiler, run `./build-source.ps1` from this directory. `-ArduinoCli` and `-CompilerPath` can specify the installed tools. Output is `tmp/source-build/avr/LUFAHybridFightstick.ino.hex`. The script uses `source-dependencies/arduino-user` without modifying the user's Arduino configuration.
+
+For installation on the tested ATmega32U4 / 16 MHz Pro Micro with Caterina, connect by USB, double-reset to expose its short-lived bootloader serial port, then flash the application HEX with avrdude using `-p atmega32u4 -c avr109 -P <bootloader-port> -b 57600 -D -U flash:w:<hex-path>:i`. Read back and verify Flash. Do not overwrite the bootloader, fuses or EEPROM. This unit has no signature lock or installation keys. Other bootloaders may require a different reset procedure. After flashing, connect while holding the middle small button to use WebHID configuration; reconnect without holding buttons to play.
+
+Complete Corresponding Source and the installation information above are available for free download to anyone possessing the supplied software. This availability is maintained for at least three years after each product delivery and for as long as spare parts or support are offered for this model.
+
 ## Acknowledgments
 
 This work is a fork of [LUFAHybridFightstick](https://github.com/CrazyRedMachine/LUFAHybridFightstick) by [CrazyRedMachine](https://github.com/CrazyRedMachine) and
