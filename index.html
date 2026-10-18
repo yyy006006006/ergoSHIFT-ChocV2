@@ -10,18 +10,26 @@
 </head>
 <body>
   <header class="toolbar">
-    <div class="app-title"><strong>ergoSHIFT</strong><span>ボタン設定</span><span class="byline">by nekoko</span></div>
-    <div class="connection"><span id="connection-status" class="status"><i></i> 本体未接続</span><button id="connect" class="primary">USBで接続 <span aria-hidden="true">↗</span></button></div>
+    <div class="app-title"><strong>ergoSHIFT</strong><span>ボタン設定</span></div>
+    <div id="editor-connection" class="connection" hidden><button id="connect" class="primary">切断</button></div>
   </header>
   <main>
-    <div class="editor-toolbar"><span class="active-tab">ボタン配置</span><span class="workflow">上で変更するボタンを選択 → 下で割り当てを選択</span><label class="preset-label"><span class="sr-only">プリセット</span><select id="preset"><option value="">プリセット</option><option value="default">標準の配置</option><option value="top-r3">上の大ボタンをR3に</option></select></label></div>
+    <section id="connection-screen" class="connection-screen" aria-labelledby="connection-title">
+      <h1 id="connection-title" tabindex="-1">接続</h1>
+      <div class="guide-buttons" role="img" aria-label="本体上側の小ボタン。中央の設定ボタンを押します。"><span>HOME<i></i></span><span class="guide-target">設定<i></i></span><span>START<i></i></span></div>
+      <ol class="guide-steps"><li>USBを抜く。</li><li>中央の小ボタンを押しながらUSBを挿し、3秒後に離す。</li><li>「接続」を押し、一覧の「ergoSHIFT Configuration」を選ぶ。</li></ol>
+      <button id="connect-start" class="primary">接続</button>
+      <p id="connection-message" class="message" role="status" aria-live="polite" hidden></p>
+      <p class="browser-note">PCのChrome / Edge対応</p>
+    </section>
+    <div id="keymap-screen" hidden>
+    <div class="editor-toolbar"><label class="preset-label"><span class="sr-only">プリセット</span><select id="preset"><option value="">プリセット</option><option value="default">標準</option><option value="top-r3">上の大ボタンをR3に</option></select></label></div>
     <section class="layout-panel" aria-labelledby="layout-title">
-      <div class="section-heading"><h1 id="layout-title"><span class="step">1</span> ergoSHIFT <small>変更するボタンを選択</small></h1><span class="orientation">USB側が上</span></div>
+      <div class="section-heading"><h1 id="layout-title" tabindex="-1"><span class="step">1</span> ボタンを選択</h1><span class="orientation">USB側が上</span></div>
       <div class="board-stage"><svg id="board" viewBox="52 49 226 145" role="group" aria-label="ergoSHIFTのボタン配置。変更する大ボタンを選択してください。"><g id="fixed-buttons"></g><g id="editable-buttons"></g></svg></div>
-      <div class="selection-bar"><div class="selected-control"><span>選択中</span><strong id="selected-name">上側の大ボタン</strong><span id="selected-ref" class="sr-only">SW14</span><span class="arrow" aria-hidden="true">→</span><strong id="selected-action" class="assignment-value">BACK</strong></div><span id="edit-state">配置のプレビュー · 本体には未反映</span></div>
     </section>
     <section class="assignment-panel" aria-labelledby="controller-title">
-      <div class="section-heading"><h2 id="controller-title"><span class="step">2</span> ゲームパッド <small>割り当てたいボタンを選択</small></h2><span class="controller-type">Xbox / XInput</span></div>
+      <div class="section-heading"><h2 id="controller-title"><span class="step">2</span> 割り当てを選択</h2><span class="controller-type">Xbox / XInput</span></div>
       <div class="controller-stage"><svg id="controller" viewBox="0 0 620 280" role="group" aria-label="一般的なゲームパッドの配置。ボタン・トリガー・スティック押込みをクリックして割り当てます。">
         <path class="gamepad-body" d="M178 55 C147 35 113 45 91 61 C65 80 38 160 33 221 C30 254 58 274 86 250 L146 190 Q310 223 474 190 L534 250 C562 274 590 254 587 221 C582 160 555 80 529 61 C507 45 473 35 442 55 Q310 77 178 55Z"/>
         <path class="gamepad-grip" d="M91 75 C66 120 53 179 50 221 C48 241 58 251 73 240 L130 186"/><path class="gamepad-grip" d="M529 75 C554 120 567 179 570 221 C572 241 562 251 547 240 L490 186"/>
@@ -30,23 +38,14 @@
         <g class="controller-fixed" aria-label="HOME：固定"><circle cx="310" cy="82" r="13"/><path class="home-icon" d="M303 82 L310 76 L317 82 M305 81 V88 H315 V81"/></g>
         <g id="action-grid"></g>
       </svg></div>
-      <div class="assignment-options"><label class="swap-option"><input id="swap" type="checkbox" checked><span>使用中のボタンと入れ替える</span></label><span class="controller-legend"><i></i> 選択中の割り当て <span>薄いボタンは固定</span></span><button id="disable" class="action-clear" data-action="NONE" aria-pressed="false">無効にする</button></div>
-      <p id="action-note" class="action-note">BACK / SELECTはゲームによって対戦操作に割り当てられない場合があります。</p>
+      <div class="assignment-options"><label class="swap-option"><input id="swap" type="checkbox" checked><span>重複時は入れ替え</span></label><button id="disable" class="action-clear" data-action="NONE" aria-pressed="false">無効にする</button></div>
+
     </section>
     <div id="message" class="message" role="status" aria-live="polite" hidden></div>
-    <section class="save-bar" aria-label="設定の保存"><p id="save-help">設定モードで接続すると、本体へ保存できます。</p><div class="save-actions"><button id="reset" class="secondary">標準に戻す</button><button id="read" class="secondary" disabled>本体から読み直す</button><button id="save" class="primary" disabled>本体に保存 <span aria-hidden="true">↓</span></button></div></section>
-    <div class="utilities"><div class="file-tools"><button id="export" class="text-button">設定を保存（JSON）</button><button id="import" class="text-button">設定を読み込む</button><input id="import-file" type="file" accept=".json,application/json" hidden></div><details class="help"><summary>USBの接続方法</summary><div class="help-content"><ol><li>USBを抜き、上側中央の小さい「設定」ボタンを押したままUSBを挿します。</li><li>「USBで接続」から「ergoSHIFT Configuration」を選びます。</li><li>配置を選んで「本体に保存」。その後、何も押さずにUSBを挿し直すとゲーム用に戻ります。</li></ol><p>PCのChrome・Edge向けです。従来版ファームの本体は、販売元での対応ファーム導入が必要です。方向キー・HOME・STARTは固定です。L3 / R3はスティック押込み、LT / RTはトリガーです。</p></div></details></div>
+    <section class="save-bar" aria-label="設定の保存"><p id="save-help" role="status"></p><div class="save-actions"><button id="reset" class="secondary">標準に戻す</button><button id="read" class="secondary" disabled>読み直す</button><button id="save" class="primary" disabled>保存</button></div></section>
+    <details class="utilities"><summary>その他</summary><div class="file-tools"><button id="export" class="text-button">ファイルに保存</button><button id="import" class="text-button">ファイルから読込</button><input id="import-file" type="file" accept=".json,application/json" hidden></div></details>
+    </div>
   </main>
-  <dialog id="connect-guide" aria-labelledby="connect-guide-title">
-    <button id="guide-close" class="guide-close" aria-label="接続手順を閉じる">×</button>
-    <h2 id="connect-guide-title">USB接続の準備</h2>
-    <p class="guide-intro">配置を変えるときは、中央の小ボタンを使って設定モードにします。</p>
-    <div class="guide-buttons" role="img" aria-label="本体上側の小さい3つのボタン。HOME、中央の設定ボタン、STARTの順です。中央のボタンを押してください。"><span>HOME<i></i></span><span class="guide-target">このボタン<i></i><b>設定</b></span><span>START<i></i></span></div>
-    <ol class="guide-steps"><li><strong>USBケーブルを抜く</strong><span>ケーブルは本体側で抜きます。</span></li><li><strong>中央の小ボタンを押したまま、USBを挿す</strong><span>3秒ほど待ってから、ボタンから指を離します。</span></li><li><strong>下の「接続先を選ぶ」を押す</strong><span>一覧の「ergoSHIFT Configuration」を選んで「接続」を押します。</span></li></ol>
-    <div class="guide-after"><strong>つながったら</strong><p>上の図で変更するボタン → 下の図で割り当て →「本体に保存」の順で進めます。保存後にUSBを抜き、何も押さずに挿し直せば使えます。</p></div>
-    <div class="guide-actions"><button id="guide-cancel" class="secondary">あとで</button><button id="connect-start" class="primary">接続先を選ぶ</button></div>
-    <p class="guide-footnote">対応ファームを導入済みの本体向けです。PCのChrome・Edgeで開いてください。</p>
-  </dialog>
-  <footer><span>nekoko · ergoSHIFT Rev1</span><span>Hardware by <a href="https://github.com/mizma/ergoSHIFT" target="_blank" rel="noopener">mizma</a> · <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a> · <a href="https://github.com/yyy006006006/ergoSHIFT-ChocV2" target="_blank" rel="noopener">製品・ソース ↗</a></span></footer>
+  <footer><span>nekoko</span><span>Hardware by <a href="https://github.com/mizma/ergoSHIFT" target="_blank" rel="noopener">mizma</a> · <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a> · <a href="https://github.com/yyy006006006/ergoSHIFT-ChocV2" target="_blank" rel="noopener">ソース・ライセンス</a></span></footer>
 </body>
 </html>
